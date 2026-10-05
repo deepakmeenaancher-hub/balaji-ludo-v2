@@ -1,62 +1,73 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Wallet</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wallet - BALAJI LUDO</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
-body{background:#f0f0f0;display:flex;justify-content:center}
-.app{width:100%;max-width:400px;background:white;min-height:100vh}
-.header{background:#6a1b9a;color:white;padding:15px;text-align:center}
-.balance{background:#6a1b9a;color:white;padding:20px;text-align:center}
-.balance h1{font-size:32px}
-.tabs{display:flex}
-.tab{flex:1;padding:15px;text-align:center;border-bottom:2px solid #ddd}
-.tab.active{border-color:#6a1b9a;color:#6a1b9a;font-weight:bold}
-.chip{display:inline-block;border:1px solid #6a1b9a;padding:10px 20px;border-radius:20px;margin:5px;cursor:pointer}
-.chip.selected{background:#6a1b9a;color:white}
-.btn{width:90%;margin:20px 5%;padding:15px;background:#6a1b9a;color:white;border:none;border-radius:8px;font-weight:bold}
-.qr-box{display:none;text-align:center;padding:20px}
+body{background:#fff}
+.top{background:#6A1B9A;color:#fff;text-align:center;padding:20px 15px}
+.top h2{font-size:18px;font-weight:400;margin-bottom:10px}
+.top h1{font-size:38px}
+.top p{font-size:13px;opacity:0.9;margin-top:5px}
+.tabs{display:flex;border-bottom:1px solid #ddd}
+.tabs div{flex:1;text-align:center;padding:14px;font-weight:bold;cursor:pointer}
+.tabs .active{color:#6A1B9A;border-bottom:3px solid #6A1B9A}
+.amount-section{text-align:center;padding:15px}
+.amounts{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:10px 0}
+.amt{border:1px solid #6A1B9A;border-radius:25px;padding:8px 20px;cursor:pointer}
+.amt.active{background:#6A1B9A;color:#fff}
+.add-btn{background:#6A1B9A;color:#fff;border:none;width:90%;margin:15px 5%;padding:14px;border-radius:8px;font-weight:bold;font-size:16px}
+.qr-box{text-align:center;padding:15px;display:none}
+.qr-box img{width:220px;margin:15px auto;display:block}
+.qr-box p{font-size:13px;color:#333}
+.paid{background:green;color:#fff;border:none;padding:12px 0;width:90%;margin:15px 5%;border-radius:8px;font-weight:bold}
 </style>
 </head>
 <body>
-<div class="app">
-  <div class="header" onclick="location='index.html'">← Wallet</div>
-  <div class="balance"><p>Balance</p><h1>₹<span id="bal">0</span></h1><p style="font-size:12px">Deposit: ₹<span id="dep">0</span> | Winning: ₹<span id="win">0</span></p></div>
-  <div class="tabs"><div class="tab active">Add Cash</div><div class="tab">Withdraw</div></div>
-  <div style="padding:15px;text-align:center">
-    <p>Select Amount</p>
-    <div><span class="chip" onclick="sel(100,this)">₹100</span><span class="chip selected" onclick="sel(250,this)">₹250</span><span class="chip" onclick="sel(500,this)">₹500</span><span class="chip" onclick="sel(1000,this)">₹1000</span></div>
-    <button class="btn" onclick="addCash()">ADD CASH</button>
-    <div id="qr" class="qr-box">
-      <p>Scan & Pay ₹<span id="payAmt">250</span></p>
-      <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=balajiludo@upi" style="margin:15px">
-      <p style="font-size:12px">Payment ke baad Screenshot WhatsApp karo<br>5 min me balance add ho jayega</p>
-      <button class="btn" style="background:green" onclick="paid()">I HAVE PAID</button>
-    </div>
-  </div>
+<div class="top">
+<h2>Wallet</h2>
+<p>Balance</p>
+<h1 id="bal">Rs. 1250</h1>
+<p>Deposit: Rs. 1250 | Winning: Rs. 0</p>
 </div>
+
+<div class="tabs">
+<div class="active" id="addTab">Add Cash</div>
+<div>Withdraw</div>
+</div>
+
+<div class="amount-section">
+<p>Select Amount</p>
+<div class="amounts">
+<div class="amt" onclick="selectAmt(this,100)">Rs. 100</div>
+<div class="amt active" onclick="selectAmt(this,250)">Rs. 250</div>
+<div class="amt" onclick="selectAmt(this,500)">Rs. 500</div>
+<div class="amt" onclick="selectAmt(this,1000)">Rs. 1000</div>
+</div>
+<button class="add-btn" onclick="showQR()">ADD CASH</button>
+</div>
+
+<div class="qr-box" id="qrBox">
+<p>Scan & Pay <span id="payAmt">Rs. 250</span></p>
+<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=deepakmeenaancher@upi%26am=250%26cu=INR">
+<p>Payment ke baad Screenshot WhatsApp karo<br>5 min me balance add ho jayega</p>
+<button class="paid" onclick="alert('Admin ko screenshot bhejo, balance add ho jayega')">I HAVE PAID</button>
+</div>
+
 <script>
-let amount=250;
-function sel(amt,el){
-  amount=amt;
-  document.querySelectorAll(".chip").forEach(c=>c.classList.remove("selected"));
-  el.classList.add("selected");
+let selected = 250;
+function selectAmt(el, amt){
+document.querySelectorAll('.amt').forEach(a=>a.classList.remove('active'));
+el.classList.add('active');
+selected = amt;
+document.getElementById('payAmt').innerText = 'Rs. '+amt;
 }
-function addCash(){
-  document.getElementById("payAmt").innerText=amount;
-  document.getElementById("qr").style.display="block";
+function showQR(){
+document.getElementById('qrBox').style.display='block';
+document.getElementById('qrBox').scrollIntoView({behavior:'smooth'});
 }
-function paid(){
-  alert("Payment Received! ₹"+amount+" 5 min me add ho jayega (Abhi test ke liye instant add kar raha hu)");
-  let dep=parseInt(localStorage.getItem("deposit")||0)+amount;
-  localStorage.setItem("deposit",dep);
-  location.reload();
-}
-let dep=localStorage.getItem("deposit")||0;
-document.getElementById("bal").innerText=dep;
-document.getElementById("dep").innerText=dep;
-document.getElementById("win").innerText="0";
 </script>
 </body>
 </html>
