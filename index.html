@@ -1,39 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BALAJI LUDO</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
-body{background:#f2f2f2}
-.header{background:#6A1B9A;color:#fff;padding:15px 15px;display:flex;justify-content:space-between;align-items:center}
-.header b{font-size:20px;letter-spacing:1px}
-.balance{border:1px solid #fff;border-radius:25px;padding:6px 15px;font-size:14px}
-.green-btn{margin:15px;background:#0a7a00;color:#fff;text-align:center;padding:14px;border-radius:8px;font-weight:bold;cursor:pointer}
-.card{margin:0 15px 15px 15px}
-.card b{font-size:18px}
-.card small{color:gray}
-.bottom{position:fixed;bottom:0;width:100%;display:flex;background:#fff;border-top:1px solid #ddd;padding:8px 0}
-.bottom div{flex:1;text-align:center;font-size:13px;color:gray}
-.bottom div.active{color:#6A1B9A;font-weight:bold}
-</style>
-</head>
-<body>
-<div class="header">
-<b>BALAJI LUDO</b>
-<div class="balance">Rs. 250</div>
-</div>
-
-<div class="green-btn" onclick="window.location.href='room.html'">+ CREATE BATTLE (Rs.100)</div>
-
-<div class="card"><b>Open Battles</b><br><small>No open battle, create one</small></div>
-<div class="card"><b>Running Battles</b><br><small>No running battle</small></div>
-
-<div class="bottom">
-<div class="active">Home<br>Home</div>
-<div onclick="window.location.href='wallet.html'">Wallet<br>Wallet</div>
-<div>Profile<br>Profile</div>
-</div>
-</body>
-</html>
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>BAJIGER LUDO</title>
+<style>*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}body{background:#eef4f8;padding-bottom:80px}.header{background:#000;color:#fff;padding:10px 15px;display:flex;justify-content:space-between}.coin{background:#fff;color:#000;padding:5px 10px;border-radius:20px;font-size:12px;font-weight:bold}.banner{background:#e8f5e9;margin:10px;padding:8px;border-radius:8px;font-size:11px;border:1px dashed green;text-align:center}.create{background:#fff;margin:10px;padding:10px;border-radius:10px;display:flex;gap:8px}.create input{flex:1;padding:10px;border:1px solid #ddd;border-radius:8px}.create button{background:#0a7a00;color:#fff;border:none;padding:10px 15px;border-radius:8px}.battle{background:#fff;margin:10px;padding:10px;border-radius:10px}.row{display:flex;justify-content:space-between;align-items:center;margin-top:6px}.play{background:#0070f0;color:#fff;border:none;padding:5px 15px;border-radius:20px}.bottom{position:fixed;bottom:10px;left:10px;right:10px;background:#2d0a4e;border-radius:30px;display:flex;padding:10px 0}.bottom div{flex:1;text-align:center;color:#aaa;font-size:10px}.bottom.active{color:#fff}</style>
+</head><body>
+<div class="header"><span onclick="location.href='profile.html'">☰</span><b>BALAJI LUDO</b><div><span class="coin">₹20</span> <span class="coin">₹17</span></div></div>
+<div class="banner">💐 BAJIGER LUDO FAMILY me swagat hai 💐 7014044949 / 8005605134</div>
+<div class="create"><input id="amt" type="number" placeholder="Enter Amount"><button onclick="if(!amt.value){alert('Amount dalo');return;}localStorage.setItem('battle',amt.value);alert('Battle Created ₹'+amt.value)">Set</button></div>
+<div style="margin:10px;font-weight:bold">🎯 Open Battles</div>
+<div class="battle"><small>Challenge From <b>hbbDz</b></small><div class="row"><span>ENTRY ₹700</span><button class="play">Play</button><span>PRIZE ₹1358</span></div></div>
+<div class="battle"><small>Challenge From <b>VPcJg</b></small><div class="row"><span>ENTRY ₹150</span><button class="play">Play</button><span>PRIZE ₹285</span></div></div>
+<div style="margin:10px;font-weight:bold">🔴 Running Battles</div>
+<div class="battle"><small>Game Play between <b>Meena & okismat</b></small><div class="row"><span>ENTRY ₹500</span><b>VS</b><span>WIN ₹970</span></div></div>
+<div class="bottom"><div onclick="location.href='wallet.html'">Wallet</div><div onclick="location.href='refer.html'">Refer</div><div class="active">Home</div><div onclick="location.href='support.html'">Support</div><div onclick="location.href='profile.html'">Profile</div></div>
+</body></html>
