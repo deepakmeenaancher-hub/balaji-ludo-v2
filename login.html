@@ -1,68 +1,17 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Balaji Ludo - Login</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
-body{background:#f5f5f5;display:flex;justify-content:center}
-.container{width:100%;max-width:400px;background:white;min-height:100vh;padding:20px}
-.logo{text-align:center;margin-top:30px}
-.logo img{width:120px}
-.input-box{margin-top:40px}
-.input-box input{width:100%;padding:15px;border:1px solid #ddd;border-radius:8px;font-size:16px}
-.btn{width:100%;padding:15px;background:#6a1b9a;color:white;border:none;border-radius:8px;margin-top:20px;font-size:16px;font-weight:bold}
-.timer{color:red;text-align:center;margin-top:10px;display:none}
-.otp-box{display:none}
-.small{font-size:12px;color:gray;text-align:center;margin-top:10px}
-</style>
-</head>
-<body>
-<div class="container">
-  <div class="logo"><h2>BALAJI LUDO</h2><p>Real Money Game</p></div>
-  <div class="input-box">
-    <div id="phoneDiv">
-      <input id="phone" type="number" placeholder="Enter Mobile Number">
-      <button class="btn" onclick="sendOTP()">GET OTP</button>
-      <p class="small">OTP will come from HOXTNT</p>
-    </div>
-    <div id="otpDiv" class="otp-box">
-      <input id="otp" type="number" placeholder="Enter 6 Digit OTP">
-      <button class="btn" onclick="verifyOTP()">VERIFY OTP</button>
-      <p id="timer" class="timer">Resend in 59s</p>
-      <p class="small">Encrypted & Secure</p>
-    </div>
-  </div>
-</div>
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Login</title>
+<style>*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}body{background:#eef2f7}.h{background:#000;color:#fff;padding:10px;display:flex;justify-content:space-between}.h img{width:40px;border-radius:50%}.h.b{border:1px solid #fff;padding:5px 15px;border-radius:6px}.c{background:#fff;margin:15px;padding:20px;border-radius:15px;text-align:center}.l{text-align:left;font-size:12px;font-weight:bold;margin-top:10px}.ib{display:flex;border:1px solid #ddd;border-radius:8px;margin-top:5px}.ib span{background:#f5f5f5;padding:12px;border-right:1px solid #ddd}.ib input{flex:1;border:none;padding:12px;outline:none}.btn{background:#0070f0;color:#fff;width:100%;padding:12px;border:none;border-radius:10px;margin-top:15px;font-weight:bold}</style>
+</head><body>
+<div class="h"><img src="https://via.placeholder.com/40"><div class="b">LOGIN</div></div>
+<div class="c" id="s1"><h2>Welcome Back</h2><p style="font-size:12px;color:gray">Enter your mobile number</p>
+<div class="l">MOBILE NUMBER</div><div class="ib"><span>+91</span><input id="m" type="number" placeholder="98765 43210"></div>
+<button class="btn" onclick="send()">Send OTP →</button></div>
+<div class="c" id="s2" style="display:none"><h2>Verify OTP</h2><p style="font-size:12px;color:gray">Code sent to your phone</p>
+<div class="l">MOBILE</div><div class="ib"><span>+91</span><input id="m2" disabled></div>
+<div class="l">OTP <span style="float:right;color:green;font-size:10px">● Encrypted</span></div><div class="ib"><input id="otp" type="number" placeholder="••••••"><span>🔒</span></div>
+<div style="text-align:right;font-size:11px;color:gray;margin-top:5px">Resend in <span id="t">60s</span></div>
+<button class="btn" onclick="verify()">Verify & Continue →</button></div>
 <script>
-let sentOTP="";
-function sendOTP(){
-  let phone=document.getElementById("phone").value;
-  if(phone.length!=10){alert("10 digit number dalo");return}
-  sentOTP=Math.floor(100000+Math.random()*900000);
-  localStorage.setItem("temp_otp",sentOTP);
-  localStorage.setItem("phone",phone);
-  alert("OTP: "+sentOTP+" (Abhi test ke liye dikha raha hu, baad me Fast2SMS lagega)");
-  document.getElementById("phoneDiv").style.display="none";
-  document.getElementById("otpDiv").style.display="block";
-  startTimer();
-  // Yahan baad me worker.js se Fast2SMS call hoga
-}
-function startTimer(){
-  let s=59;
-  let t=document.getElementById("timer");
-  t.style.display="block";
-  let inter=setInterval(()=>{
-    t.innerText="Resend in "+s+"s";s--;
-    if(s<0){clearInterval(inter);t.innerText="Resend OTP";t.onclick=()=>location.reload()}
-  },1000)
-}
-function verifyOTP(){
-  if(document.getElementById("otp").value==localStorage.getItem("temp_otp")){
-    document.body.innerHTML="<h2 style='text-align:center;margin-top:50%'>Verification successful<br>Redirecting...</h2>";
-    setTimeout(()=>{window.location="index.html"},1500)
-  }else{alert("Wrong OTP")}
-}
-</script>
-</body>
-</html>
+function send(){let v=document.getElementById('m').value;if(v.length!=10){alert('10 digit dalo');return;}document.getElementById('m2').value=v;document.getElementById('s1').style.display='none';document.getElementById('s2').style.display='block';let c=60;setInterval(()=>{if(c>0){c--;document.getElementById('t').innerText=c+'s'}},1000);}
+function verify(){let o=document.getElementById('otp').value;if(o.length<4){alert('OTP dalo');return;}localStorage.setItem('mob',document.getElementById('m2').value);location.href='index.html';}
+</script></body></html>
