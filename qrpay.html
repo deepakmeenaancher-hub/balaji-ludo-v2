@@ -1,0 +1,15 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Pay</title>
+<style>*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}body{background:#eef2f7}.card{background:#fff;margin:10px;border-radius:15px;padding:15px;text-align:center}img{width:200px;margin:10px auto;display:block}</style></head><body>
+<div class="card"><h3>BAJIGERLUDO</h3><p>Scan QR to Pay</p><p>Amount: ₹<span id="pa">100.00</span></p>
+<img id="qr" src="">
+<p>QR expires in <span id="tm">05:00</span></p>
+<div style="display:flex;gap:8px;margin-top:10px"><button style="flex:1;padding:8px;border:1px solid #ddd;border-radius:20px">G Pay</button><button style="flex:1;padding:8px;border:1px solid #ddd;border-radius:20px">Paytm</button></div>
+<button style="background:#0a7a00;color:#fff;width:100%;padding:12px;border:none;border-radius:25px;margin-top:12px" onclick="alert('Screenshot admin ko bhejo')">I HAVE PAID</button>
+</div>
+<script>
+let amt=localStorage.getItem('payAmt')||100;document.getElementById('pa').innerText=amt+'.00';
+let upi=localStorage.getItem('admin_upi')||'deepakmeenaancher@upi';
+let qrImg=localStorage.getItem('admin_qr');
+if(qrImg){document.getElementById('qr').src=qrImg;}else{document.getElementById('qr').src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa='+upi+'%26am='+amt;}
+let c=300;setInterval(()=>{if(c>0){c--;let m=Math.floor(c/60);let s=c%60;document.getElementById('tm').innerText='0'+m+':'+(s<10?'0':'')+s}},1000);
+</script></body></html>
