@@ -1,41 +1,32 @@
 export default {
-  async fetch(request, env) {
+  async fetch(request) {
     const url = new URL(request.url);
-    let path = url.pathname;
+    let path = url.pathname.toLowerCase();
 
-    // Default page login pe bhejo
-    if (path === "/" || path === "/index") {
-      path = "/index.html";
+    // Admin ka alag
+    if (path.includes("admin")) {
+      const r = await fetch("https://raw.githubusercontent.com/deepakmeenaancher-hub/balaji-ludo-v2/main/admin.html");
+      const html = await r.text();
+      return new Response(html, {
+        headers: { "Content-Type": "text/html;charset=UTF-8" }
+      });
     }
 
-    // Agar .html nahi hai to .html jod do
-    if (!path.includes(".")) {
-      path = path + ".html";
-    }
-
-    // GitHub RAW se file lao
-    const githubUrl = `https://raw.githubusercontent.com/deepakmeenaancher-hub/balaji-ludo-v2/main${path}`;
+    // Baaki sab - wallet, withdraw, refer, support, profile, addcash, qr, pay, home
+    // Sabko index.html hi dikhana hai - isse kabhi 404 nahi ayega
+    const res = await fetch("https://raw.githubusercontent.com/deepakmeenaancher-hub/balaji-ludo-v2/main/index.html");
     
-    let response = await fetch(githubUrl);
-
-    // Agar file nahi mili to index.html dikhao
-    if (!response.ok) {
-      response = await fetch(`https://raw.githubusercontent.com/deepakmeenaancher-hub/balaji-ludo-v2/main/index.html`);
+    if (!res.ok) {
+      return new Response("GitHub pe index.html nahi mila. Pehle index.html push karo.", { status: 404 });
     }
 
-    let content = await response.text();
-    
-    // Content-Type sahi set karo
-    let contentType = "text/html;charset=UTF-8";
-    if (path.endsWith(".js")) contentType = "application/javascript";
-    if (path.endsWith(".css")) contentType = "text/css";
-    if (path.endsWith(".json")) contentType = "application/json";
+    let html = await res.text();
 
-    return new Response(content, {
+    return new Response(html, {
       headers: {
-        "Content-Type": contentType,
-        "Access-Control-Allow-Origin": "*",
-        "Cache-Control": "no-cache"
+        "Content-Type": "text/html;charset=UTF-8",
+        "Cache-Control": "no-cache, no-store, must-revalidate",
+        "Access-Control-Allow-Origin": "*"
       }
     });
   }
