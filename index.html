@@ -1,65 +1,39 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Home - Balaji Ludo</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BALAJI LUDO</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
-body{background:#f0f0f0;display:flex;justify-content:center}
-.app{width:100%;max-width:400px;background:white;min-height:100vh;position:relative;padding-bottom:70px}
-.header{background:#6a1b9a;color:white;padding:15px;display:flex;justify-content:space-between;align-items:center}
-.wallet{border:1px solid white;padding:5px 10px;border-radius:20px;font-size:14px}
-.battle-card{background:white;margin:10px;border-radius:10px;padding:15px;box-shadow:0 2px 5px #ddd}
-.battle-card .top{display:flex;justify-content:space-between}
-.amount{font-weight:bold;color:#6a1b9a}
-.btn-play{background:#6a1b9a;color:white;border:none;padding:8px 20px;border-radius:5px;margin-top:10px;width:100%}
-.nav{position:fixed;bottom:0;width:100%;max-width:400px;background:white;display:flex;justify-content:space-around;padding:10px;border-top:1px solid #ddd}
-.nav div{text-align:center;font-size:12px;color:gray}
-.nav .active{color:#6a1b9a}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#f2f2f2}
+.header{background:#6A1B9A;color:#fff;padding:15px 15px;display:flex;justify-content:space-between;align-items:center}
+.header b{font-size:20px;letter-spacing:1px}
+.balance{border:1px solid #fff;border-radius:25px;padding:6px 15px;font-size:14px}
+.green-btn{margin:15px;background:#0a7a00;color:#fff;text-align:center;padding:14px;border-radius:8px;font-weight:bold;cursor:pointer}
+.card{margin:0 15px 15px 15px}
+.card b{font-size:18px}
+.card small{color:gray}
+.bottom{position:fixed;bottom:0;width:100%;display:flex;background:#fff;border-top:1px solid #ddd;padding:8px 0}
+.bottom div{flex:1;text-align:center;font-size:13px;color:gray}
+.bottom div.active{color:#6A1B9A;font-weight:bold}
 </style>
 </head>
 <body>
-<div class="app">
-  <div class="header">
-    <div>BALAJI LUDO</div>
-    <div class="wallet" onclick="location='wallet.html'">₹<span id="bal">0</span> 💰</div>
-  </div>
-  <div style="padding:10px">
-    <button class="btn-play" style="background:green" onclick="createBattle()">+ CREATE BATTLE (₹100)</button>
-    <h4 style="margin-top:15px">Open Battles</h4>
-    <div id="openBattles"></div>
-    <h4 style="margin-top:15px">Running Battles</h4>
-    <div id="runningBattles"><p style="color:gray;font-size:12px">No running battle</p></div>
-  </div>
-  <div class="nav">
-    <div class="active">🏠<br>Home</div>
-    <div onclick="location='wallet.html'">💰<br>Wallet</div>
-    <div>👤<br>Profile</div>
-  </div>
+<div class="header">
+<b>BALAJI LUDO</b>
+<div class="balance">Rs. 250</div>
 </div>
-<script>
-let bal = localStorage.getItem("deposit")||0;
-document.getElementById("bal").innerText=bal;
 
-let battles = JSON.parse(localStorage.getItem("battles")||"[]");
+<div class="green-btn" onclick="window.location.href='room.html'">+ CREATE BATTLE (Rs.100)</div>
 
-function render(){
-  let html="";
-  if(battles.length==0) html="<p style='font-size:12px;color:gray'>No open battle, create one</p>";
-  battles.forEach((b,i)=>{
-    html+=`<div class="battle-card"><div class="top"><span>Amount ₹${b.amount}</span><span class="amount">Prize ₹${b.amount*2*0.9}</span></div><button class="btn-play" onclick="join(${i})">PLAY</button></div>`
-  })
-  document.getElementById("openBattles").innerHTML=html;
-}
-function createBattle(){
-  battles.push({amount:100,status:"open"});
-  localStorage.setItem("battles",JSON.stringify(battles));
-  location="room.html";
-}
-function join(i){
-  location="room.html?id="+i;
-}
-render();
-</script>
+<div class="card"><b>Open Battles</b><br><small>No open battle, create one</small></div>
+<div class="card"><b>Running Battles</b><br><small>No running battle</small></div>
+
+<div class="bottom">
+<div class="active">Home<br>Home</div>
+<div onclick="window.location.href='wallet.html'">Wallet<br>Wallet</div>
+<div>Profile<br>Profile</div>
+</div>
 </body>
 </html>
