@@ -3,31 +3,11 @@ export default {
     const url = new URL(request.url);
     let path = url.pathname.toLowerCase();
 
-    // Admin ka alag
+    const ADMIN_HTML = `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Admin</title><style>body{font-family:Arial;padding:15px;background:#f2f2f2}.h{background:#6A1B9A;color:#fff;padding:15px;text-align:center;border-radius:8px}.b{background:#fff;padding:15px;border-radius:8px;margin-top:10px}input{width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;margin-top:5px}.btn{background:#6A1B9A;color:#fff;padding:12px;text-align:center;border-radius:6px;margin-top:10px;cursor:pointer}</style></head><body><div class="h">ADMIN QR CONTROL</div><div class="b">UPI ID<input id="upi" value="deepakmeenaancher@upi"><br><br>QR Upload<input type="file" id="f" accept="image/*"><img id="p" style="width:200px;display:block;margin:10px auto"><div class="btn" onclick="save()">SAVE</div><div style="font-size:11px;margin-top:10px">Save ke baad user ko naya QR dikhega</div></div><script>const f=document.getElementById('f');const p=document.getElementById('p');const upi=document.getElementById('upi');f.addEventListener('change',e=>{let r=new FileReader();r.onload=ev=>p.src=ev.target.result;r.readAsDataURL(e.target.files[0]);});function save(){localStorage.setItem('admin_upi',upi.value);let file=f.files[0];if(file){let r=new FileReader();r.onload=e=>{localStorage.setItem('admin_qr',e.target.result);alert('QR Saved!');};r.readAsDataURL(file);}else{localStorage.setItem('admin_upi',upi.value);alert('UPI Saved!');}}</script></body></html>`;
+
     if (path.includes("admin")) {
-      const r = await fetch("https://raw.githubusercontent.com/deepakmeenaancher-hub/balaji-ludo-v2/main/admin.html");
-      const html = await r.text();
-      return new Response(html, {
-        headers: { "Content-Type": "text/html;charset=UTF-8" }
-      });
+      return new Response(ADMIN_HTML, { headers: { "Content-Type": "text/html;charset=UTF-8" } });
     }
 
-    // Baaki sab - wallet, withdraw, refer, support, profile, addcash, qr, pay, home
-    // Sabko index.html hi dikhana hai - isse kabhi 404 nahi ayega
-    const res = await fetch("https://raw.githubusercontent.com/deepakmeenaancher-hub/balaji-ludo-v2/main/index.html");
-    
-    if (!res.ok) {
-      return new Response("GitHub pe index.html nahi mila. Pehle index.html push karo.", { status: 404 });
-    }
-
-    let html = await res.text();
-
-    return new Response(html, {
-      headers: {
-        "Content-Type": "text/html;charset=UTF-8",
-        "Cache-Control": "no-cache, no-store, must-revalidate",
-        "Access-Control-Allow-Origin": "*"
-      }
-    });
-  }
-}
+    // MAIN APP - No GitHub fetch, direct serve
+    const APP_HTML = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>BAJIGER LUDO</title><style>*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}body{background:#eef4f8;padding-bottom:85px}.header{background:#000;color:#fff;padding:10px 15px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:99}.coin{background:#fff;color:#000;padding:6px 12px;border-radius:20px;font-size:12px;font-weight:bold}.page{display:none}.page.active{display:block}.banner{background:#e8f5e9;margin:10px;padding:8px;border-radius:8px;font-size:11px;border:1px dashed green;text-align:center}.create{background:#fff;margin:10px;padding:10px;border-radius:10px;display:flex;gap:8px}.create input{flex:1;padding:11px;border:1px solid #ddd;border-radius:8px}.create button{background:#0a7a00;color:#fff;border:none;padding:10px 18px;border-radius:8px;font-weight:bold}.battle{background:#fff;margin:10px;padding:12px;border-radius:10px}.row{display:flex;justify-content:space-between;align-items:center;margin-top:6px;font-size:13px}.play{background:#0070f0;color:#fff;border:none;padding:6px 18px;border-radius:20px}.wallet-top{background:linear-gradient(135deg,#0d47a1,#1976d2);margin:10px;border-radius:15px;padding:15px;color:#fff}.bal{font-size:28px;font-weight:bold;margin:6px 0}.w-row{display:flex;gap:10px;margin-top:10px}.w-row div{background:#fff;color:#000;flex:1;padding:10px;border-radius:10px;text-align:center;font-size:12px}.btns{display:flex;gap:10px;margin:10px}.btns button{flex:1;padding:12px;border:none;border-radius:25px;color:#fff;font-weight:bold}.add{background:#0a7a00}.with{background:#0070f0}.box-dark{background:#1a1a2e;color:#fff;margin:10px;border-radius:15px;padding:15px}.chip{background:#2a2a4e;border:1px solid #444;padding:8px 14px;border-radius:20px;display:inline-block;margin:4px;font-size:13px}.proceed{background:#0a7a00;color:#fff;width:100%;padding:12px;border:none;border-radius:25px;margin-top:12px;font-weight:bold}.red-banner{background:red;color:#fff;font-size:11px;padding:8px;text-align:center}.inp{background:#fff;margin:10px;padding:10px;border-radius:10px}.inp input{width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;margin-top:5px}.red-submit{background:red;color:#fff;width:90%;margin:10px 5%;padding:12px;border:none;border-radius:25px;font-weight:bold}.bottom{position:fixed;bottom:10px;left:10px;right:10px;background:#2d0a4e;border-radius:30px;display:flex;padding:12px 0;z-index:100}.bottom div{flex:1;text-align:center;color:#aaa;font-size:10px;cursor:pointer}.bottom div.active{color:#fff}.menu{position:fixed;top:0;left:-100%;width:78%;height:100%;background:#d6f5d6;z-index:200;transition:0.3s;padding:15px}.menu.open{left:0}.m-item{background:#fff;margin:8px 0;padding:12px;border-radius:10px;display:flex;justify-content:space-between}.qr-card{background:#fff;margin:10px;border-radius:15px;padding:15px;text-align:center}</style></head><body><div class="header"><span onclick="toggleM()">☰</span><b>BAJIGER LUDO</b><div style="display:flex;gap:6px"><div class="coin">₹20</div><div class="coin" style="background:#d0c0ff">₹17</div></div></div><div class="menu" id="sideM"><div style="display:flex;justify-content:space-between"><b>BAJIGERLUDO<br><small>Official Gaming</small></b><span onclick="toggleM()" style="background:#00d0ff;padding:5px 12px;border-radius:50%">X</span></div><div class="m-item" onclick="go('home')">Play <span>›</span></div><div class="m-item" onclick="go('wallet')">My Wallet <span>›</span></div><div class="m-item" onclick="go('refer')">Refer and Earn <span>›</span></div><div class="m-item" onclick="go('support')">Support <span>›</span></div><div class="m-item" onclick="go('profile')">My Profile <span>›</span></div></div><div class="page active" id="home"><div class="banner">💐 BAJIGER LUDO FAMILY me sw
