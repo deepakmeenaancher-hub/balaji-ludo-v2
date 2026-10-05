@@ -1,17 +1,125 @@
 <!DOCTYPE html>
-<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Login</title>
-<style>*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}body{background:#eef2f7}.h{background:#000;color:#fff;padding:10px;display:flex;justify-content:space-between}.h img{width:40px;border-radius:50%}.h.b{border:1px solid #fff;padding:5px 15px;border-radius:6px}.c{background:#fff;margin:15px;padding:20px;border-radius:15px;text-align:center}.l{text-align:left;font-size:12px;font-weight:bold;margin-top:10px}.ib{display:flex;border:1px solid #ddd;border-radius:8px;margin-top:5px}.ib span{background:#f5f5f5;padding:12px;border-right:1px solid #ddd}.ib input{flex:1;border:none;padding:12px;outline:none}.btn{background:#0070f0;color:#fff;width:100%;padding:12px;border:none;border-radius:10px;margin-top:15px;font-weight:bold}</style>
-</head><body>
-<div class="h"><img src="https://via.placeholder.com/40"><div class="b">LOGIN</div></div>
-<div class="c" id="s1"><h2>Welcome Back</h2><p style="font-size:12px;color:gray">Enter your mobile number</p>
-<div class="l">MOBILE NUMBER</div><div class="ib"><span>+91</span><input id="m" type="number" placeholder="98765 43210"></div>
-<button class="btn" onclick="send()">Send OTP →</button></div>
-<div class="c" id="s2" style="display:none"><h2>Verify OTP</h2><p style="font-size:12px;color:gray">Code sent to your phone</p>
-<div class="l">MOBILE</div><div class="ib"><span>+91</span><input id="m2" disabled></div>
-<div class="l">OTP <span style="float:right;color:green;font-size:10px">● Encrypted</span></div><div class="ib"><input id="otp" type="number" placeholder="••••••"><span>🔒</span></div>
-<div style="text-align:right;font-size:11px;color:gray;margin-top:5px">Resend in <span id="t">60s</span></div>
-<button class="btn" onclick="verify()">Verify & Continue →</button></div>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0"><title>BALAJI LUDO</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
+body{background:#eaf2ff;padding-bottom:90px}
+.top{background:#000;color:#fff;display:flex;justify-content:space-between;align-items:center;padding:8px 10px;position:sticky;top:0;z-index:99;border-bottom:3px solid #00ff00}
+.coin{background:#fff;color:#000;padding:5px 12px;border-radius:20px;font-size:13px;font-weight:800}
+.coin2{background:#e9dcff;color:#000;padding:5px 12px;border-radius:20px;font-size:13px;font-weight:800}
+.page{display:none}.page.active{display:block}
+.notice{background:#ffe0e0;color:#b00000;font-size:11px;padding:7px;text-align:center;border:1px solid red}
+.card{background:#fff;margin:10px;border-radius:12px;padding:12px;box-shadow:0 1px 2px rgba(0,0,0,.06)}
+.badge-green{background:#00a000;color:#fff;padding:6px 16px;border-radius:8px;border:none;font-weight:800}
+.badge-blue{background:#2d7bff;color:#fff;padding:6px 18px;border-radius:20px;border:none;font-weight:800}
+.badge-red{background:#ff1a1a;color:#fff;width:92%;margin:12px 4%;padding:14px;border:none;border-radius:30px;font-weight:900;font-size:15px}
+.wallet-grad{background:linear-gradient(135deg,#0d2a6e,#2f7cff);border-radius:18px;padding:18px;color:#fff;margin:10px}
+.bal{font-size:34px;font-weight:900;margin:6px 0}
+.stat{display:flex;gap:10px;margin-top:12px}.stat div{background:#fff;color:#000;flex:1;padding:10px;border-radius:10px;text-align:center}
+.btns{display:flex;gap:10px;margin:10px}.btns button{flex:1;padding:14px;border:none;border-radius:30px;color:#fff;font-weight:900}
+.g{background:#0aa000}.b{background:#1976ff}
+.input-box{margin:10px;background:#fff;padding:11px;border-radius:10px}.input-box label{font-size:12px;color:#0a7a00;font-weight:700}.input-box input{width:100%;padding:12px;border:1px solid #ccc;border-radius:7px;margin-top:5px}
+.qr-rule{background:#fff;border:1px dashed #aaa;margin:10px;border-radius:10px;padding:12px;font-size:12px;line-height:18px}
+.dark{background:#12122e;color:#fff;border-radius:16px;padding:16px;margin:10px}
+.chip{background:#24244e;border:1px solid #3a3a6a;padding:9px 14px;border-radius:8px;display:inline-block;margin:4px;font-weight:700}
+.proceed{background:#00b050;color:#fff;width:100%;padding:14px;border:none;border-radius:30px;font-weight:900;margin-top:12px}
+.bottom{position:fixed;bottom:8px;left:8px;right:8px;background:#23054e;border-radius:35px;display:flex;padding:10px 0;z-index:100}
+.bottom div{flex:1;text-align:center;color:#9b7fc0;font-size:10px}.bottom div.active{color:#fff}
+.side{position:fixed;top:0;left:-100%;width:82%;height:100%;background:#d8f8d8;z-index:200;transition:.3s;padding:12px}.side.open{left:0}
+.s-item{background:#fff;margin:9px 0;padding:14px;border-radius:28px;display:flex;justify-content:space-between;font-weight:600}
+.login-box{background:#fff;margin:18px;border-radius:18px;padding:20px;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.blue-btn{background:#1a73ff;color:#fff;width:100%;padding:13px;border:none;border-radius:10px;font-weight:900;margin-top:12px}
+.hist{background:#fff;margin:8px 10px;border-radius:10px;padding:10px;font-size:12px;border-left:5px solid #ddd}
+.support-head{background:linear-gradient(135deg,#001a5a,#2a6bff);color:#fff;padding:28px;text-align:center;border-radius:0 0 22px 22px}
+</style></head><body>
+<div class="top"><span onclick="tog()">☰</span><span>🏆 BALAJI LUDO</span><div style="display:flex;gap:6px"><div class="coin">₹<span id="top1">0</span></div><div class="coin2">₹<span id="top2">0.00</span></div></div></div>
+<div style="background:#eaffea;text-align:center;font-size:11px;padding:7px;border-bottom:1px solid #b6e9b6">💐 BALAJI LUDO FAMILY में आपका स्वागत है 💐 7014044949 / 8005605134</div>
+
+<div class="page active" id="login">
+<div class="login-box" id="l1"><div style="width:64px;height:64px;background:#e3f0ff;border-radius:50%;margin:0 auto;line-height:64px;font-size:30px">🏆</div><h3 style="margin-top:10px">Welcome Back</h3><small>Enter your mobile number to get started</small><div style="text-align:left;margin-top:14px"><b style="font-size:11px">MOBILE NUMBER</b><div style="display:flex;border:1.5px solid #ddd;border-radius:8px;overflow:hidden;margin-top:5px"><span style="padding:12px;background:#f5f5f5;font-weight:700">+91</span><input id="mob" placeholder="98765 43210" style="border:none;flex:1;padding:12px;outline:none"></div><button class="blue-btn" onclick="sendOTP()">Send OTP →</button><div style="text-align:center;margin-top:12px"><small>Protected by end-to-end security protocol</small></div></div></div>
+<div class="login-box" id="l2" style="display:none"><h3>Welcome Back</h3><small>Enter the verification code sent to your phone</small><div style="text-align:left;margin-top:14px"><b style="font-size:11px">MOBILE NUMBER</b><input id="mob2" readonly style="width:100%;padding:12px;border-radius:8px;border:1px solid #ddd;background:#f5f5f5;margin-top:4px"><b style="font-size:11px;margin-top:12px;display:block">VERIFICATION OTP <span style="color:green;float:right">● Encrypted</span></b><input id="otp" placeholder="••••••" style="width:100%;padding:12px;border-radius:8px;border:1.5px solid #2d7bff;margin-top:4px"><small id="resend" style="float:right;margin-top:4px">Resend available in 60s</small><button class="blue-btn" onclick="verifyOTP()">Verify & Continue →</button></div></div>
+</div>
+
+<div class="page" id="home">
+<div style="background:linear-gradient(90deg,#002a8a,#0080ff);margin:10px;border-radius:12px;padding:12px;color:#fff;display:flex;justify-content:space-between;align-items:center"><div>🎧 BAJIGER LUDO<br>24/7 LIVE SUPPORT</div><div style="background:#fff;color:#000;padding:5px 10px;border-radius:20px;font-size:10px;font-weight:800">JOIN NOW</div></div>
+<div style="margin:12px 10px 6px;font-weight:800">🎮 Featured Games</div>
+<div style="display:flex;gap:10px;margin:10px"><div class="card" style="flex:1;background:#12123e;color:#fff;text-align:center;padding:22px">LUDO<br><b>CLASSIC</b></div><div class="card" style="flex:1;background:#12123e;color:#fff;text-align:center;padding:22px">Support</div></div>
+<div class="card"><div style="display:flex;justify-content:space-between"><b>Create a Battle!</b><small>RULES?</small></div><div style="display:flex;gap:8px;margin-top:8px"><input id="cAmt" placeholder="Enter Amount" style="flex:1;padding:11px;border:1.5px solid #ddd;border-radius:8px"><button class="badge-green" onclick="createBattle()">Set</button></div></div>
+<div style="margin:10px;font-weight:800">🎯 Open Battles</div>
+<div id="openBattles"><div class="card" style="text-align:center;color:#888;padding:20px">No open battles yet - Create one!</div></div>
+<div style="margin:10px;font-weight:800">🔴 Running Battles</div>
+<div id="runningBattles"><div class="card" style="text-align:center;color:#888;padding:20px">No running battles</div></div>
+</div>
+
+<div class="page" id="wallet">
+<div style="margin:12px 10px"><b>Wallet Balance</b><br><small>BALAJILUDO Secure Cash</small></div>
+<div class="wallet-grad"><div style="display:flex;justify-content:space-between"><span>AVAILABLE BALANCE</span><span style="background:#ffffff30;padding:3px 10px;border-radius:20px;font-size:10px">● verified</span></div><div class="bal">₹ <span id="balMain">0.00</span></div><div class="stat"><div>🟢 Deposit<br><b>₹<span id="depBal">0.00</span></b></div><div>🟡 Winnings<br><b>₹<span id="winBal">0.00</span></b></div></div></div>
+<div class="btns"><button class="g" onclick="go('addcash')">+ ADD CASH</button><button class="b" onclick="go('withdraw1')">WITHDRAW MONEY</button></div>
+<div class="card" style="text-align:center;color:#888">Transaction History - No transactions yet</div>
+</div>
+
+<div class="page" id="withdraw1">
+<div class="notice">💐 निकासी रिक्वेस्ट सुबह 7Am से रात 9.30pm तक मान्य होगी 💐</div>
+<div class="card"><label>Withdraw Amount</label><input id="w1" placeholder="Enter Amount To Withdraw" style="width:100%;padding:12px;border:1px solid #ccc;border-radius:6px;margin-top:6px"><br><br><button class="badge-green" onclick="goW2()">Next</button></div>
+</div>
+
+<div class="page" id="withdraw2">
+<div class="notice">💐 निकासी रिक्वेस्ट सुबह 7Am से रात 9.30pm तक मान्य होगी 💐</div>
+<div class="qr-rule">🏦 QR CODE<br>1. Minimum withdrawal amount 100<br>2. Maximum withdrawal amount 10000<br>3. Instant withdrawal within 30sec.</div>
+<div class="input-box"><label>Account holder name (खाता धारक का नाम)</label><input id="accName" placeholder="Deepak Kumar Meena"></div>
+<div class="input-box"><label>Upload Your Qr Code (अपना क्यूआर कोड डाले!!)</label><input type="file" id="qrFile"><div style="font-size:12px;margin-top:4px">Choose File <span id="fName">No file chosen</span></div></div>
+<div class="input-box"><label>Amount</label><input id="w2" placeholder="Enter amount"></div>
+<button class="badge-red" onclick="submitW()">WITHDRWAL SUBMIT</button>
+</div>
+
+<div class="page" id="addcash">
+<div class="dark">💰 Choose Amount to Add<br><small>ENTER AMOUNT (₹)</small><input id="aAmt" value="" placeholder="100" style="width:100%;padding:12px;border-radius:8px;background:#24244e;border:none;color:#fff;margin:8px 0"><div id="chips"><span class="chip" onclick="setA(100)">+₹100</span><span class="chip" onclick="setA(250)">+₹250</span><span class="chip" onclick="setA(500)">+₹500</span><span class="chip" onclick="setA(2000)">+₹2000</span></div><button class="proceed" onclick="go('pay')">Proceed to Pay →</button></div>
+</div>
+<div class="page" id="pay">
+<div class="dark">Amount to be added: <b id="pAmt" style="color:#0f0">₹0</b> <span style="float:right;border:1px solid #fff;padding:3px 10px;border-radius:20px;font-size:11px" onclick="go('addcash')">Edit</span><br><br>SELECT PAYMENT OPTION<div style="background:#24244e;padding:12px;border-radius:10px;margin-top:10px;display:flex;justify-content:space-between" onclick="go('qr')"><div>Scan QR Code (Instant)<br><small>Auto approval gateway</small></div><span>→</span></div></div>
+</div>
+<div class="page" id="qr">
+<div style="background:#fff;border-radius:16px;padding:15px;margin:10px;text-align:center;border:2px solid #eee"><div style="background:green;color:#fff;display:inline-block;padding:4px 10px;border-radius:6px">BALAJI LUDO</div><br><small>Scan & pay instantly</small><h3 style="margin-top:10px">Scan QR to Pay</h3><small>Amount to pay: ₹<span id="qrAmt">0.00</span></small><br><img id="qrImg" src="" style="width:240px;margin:12px auto;display:block"><div style="font-size:11px">QR expires in <span id="timer">05:00</span></div><div style="display:flex;gap:8px;justify-content:center;margin-top:12px;flex-wrap:wrap"><span style="border:1px solid #ddd;padding:6px 14px;border-radius:6px">G Pay</span><span style="border:1px solid #ddd;padding:6px 14px;border-radius:6px">Paytm</span><span style="border:1px solid #ddd;padding:6px 14px;border-radius:6px">PhonePe</span></div></div>
+</div>
+
+<div class="page" id="refer">
+<div class="card" style="text-align:center"><h3>Invite & Earn Cash</h3><small>Share with friends & get up to 3% Commission on every victory!</small><div style="display:flex;gap:10px;margin:12px 0"><div class="card" style="flex:1;margin:0">TOTAL REFERRAL<br><b id="refCount">0</b></div><div class="card" style="flex:1;margin:0">TOTAL EARNED<br><b>₹<span id="refEarn">0</span></b></div></div><div style="background:#f6f6f6;padding:14px;border-radius:12px">YOUR CODE<br><b style="font-size:28px;letter-spacing:3px" id="myCode">000000</b></div></div>
+</div>
+
+<div class="page" id="support">
+<div class="support-head"><h3>24/7 Support Center</h3><small>Having an issue? Our team is active & ready to assist</small></div><div style="margin:10px;font-weight:700">CHOOSE A CONTACT CHANNEL</div><div class="card" style="display:flex;justify-content:space-between">📞 Telegram Support - Quick Response (2-5 mins) <span>→</span></div><div class="card" style="display:flex;justify-content:space-between">💬 WhatsApp Chat - Instant live chat <span>→</span></div>
+</div>
+
+<div class="page" id="profile">
+<div class="card" style="display:flex;gap:12px;align-items:center"><img src="https://via.placeholder.com/50" style="border-radius:50%"><div><b id="pName">New User ✓</b><br><small id="pMob">Not logged</small></div></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px"><div class="card" style="margin:0;text-align:center">BATTLE PLAYED<br><b id="stBattle">0</b></div><div class="card" style="margin:0;text-align:center">COIN WON<br><b>₹<span id="stWon">0</span></b></div><div class="card" style="margin:0;text-align:center">REFERRAL<br><b>₹<span id="stRef">0</span></b></div><div class="card" style="margin:0;text-align:center">WITHDRAWAL<br><b>₹<span id="stWd">0</span></b></div></div>
+<div style="margin:14px 10px 5px;font-weight:800;color:#1a5cff">ACCOUNT SETTINGS</div><div class="card">📞 Phone<br><b id="setPhone">-</b></div><div class="card">📧 Email<br><b>-</b></div><div class="card">👤 KYC Status<br><b style="color:green">Not Verified</b></div>
+<button class="badge-red" style="background:#b00000" onclick="logout()">LOGOUT ACCOUNT</button>
+</div>
+
+<div class="page" id="history"><div style="display:flex;gap:8px;margin:10px"><div style="flex:1;text-align:center;padding:8px;background:#23054e;color:#fff;border-radius:20px">Game</div><div style="flex:1;text-align:center;padding:8px;background:#ddd;border-radius:20px">Transaction</div><div style="flex:1;text-align:center;padding:8px;background:#ddd;border-radius:20px">Referral</div></div><div id="histList"><div class="card" style="text-align:center;color:#888">No history yet</div></div></div>
+
+<div class="side" id="side"><div style="display:flex;justify-content:space-between;align-items:center"><b>BALAJI LUDO<br><small>Official Gaming</small></b><span onclick="tog()" style="background:#00e5ff;padding:6px 12px;border-radius:50%">X</span></div>
+<div class="s-item" onclick="go('profile');tog()">👤 My Profile <span>›</span></div><div class="s-item" onclick="go('home');tog()">🎮 Play <span>›</span></div><div class="s-item" onclick="go('wallet');tog()">💼 My Wallet <span>›</span></div><div class="s-item" onclick="go('refer');tog()">👥 Refer and Earn <span>›</span></div><div class="s-item" onclick="go('history');tog()">🕒 History <span>›</span></div><div class="s-item" onclick="go('support');tog()">🎧 Support <span>›</span></div></div>
+
+<div class="bottom"><div onclick="go('wallet')">💼<br>Wallet</div><div onclick="go('refer')">🎁<br>Refer</div><div class="active" onclick="go('home')">🏠<br>Home</div><div onclick="go('support')">🎧<br>Support</div><div onclick="go('profile')">👤<br>Profile</div></div>
+
 <script>
-function send(){let v=document.getElementById('m').value;if(v.length!=10){alert('10 digit dalo');return;}document.getElementById('m2').value=v;document.getElementById('s1').style.display='none';document.getElementById('s2').style.display='block';let c=60;setInterval(()=>{if(c>0){c--;document.getElementById('t').innerText=c+'s'}},1000);}
-function verify(){let o=document.getElementById('otp').value;if(o.length<4){alert('OTP dalo');return;}localStorage.setItem('mob',document.getElementById('m2').value);location.href='index.html';}
+let bal=parseInt(localStorage.getItem('bal')||'0');
+let code=localStorage.getItem('mycode')||(Math.floor(100000+Math.random()*900000).toString());
+localStorage.setItem('mycode',code);
+document.getElementById('myCode').innerText=code;
+function updateBal(){document.getElementById('balMain').innerText=bal.toFixed(2);document.getElementById('depBal').innerText=bal.toFixed(2);document.getElementById('top1').innerText=bal;document.getElementById('top2').innerText=bal.toFixed(2);localStorage.setItem('bal',bal)}
+updateBal();
+function tog(){document.getElementById('side').classList.toggle('open')}
+function go(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');if(id=='pay') document.getElementById('pAmt').innerText='₹'+(document.getElementById('aAmt').value||0);if(id=='qr'){let a=document.getElementById('aAmt').value||0;document.getElementById('qrAmt').innerText=a+'.00';let upi=localStorage.getItem('admin_upi')||'balajiludo@upi';let cq=localStorage.getItem('admin_qr');document.getElementById('qrImg').src=cq?cq:'https://api.qrserver.com/v1/create-qr-code/?size=260x260&data=upi://pay?pa='+upi+'%26am='+a+'%26cu=INR';let t=300;clearInterval(window.ti);window.ti=setInterval(()=>{t--;let m=Math.floor(t/60),s=t%60;document.getElementById('timer').innerText='0'+m+':'+(s<10?'0'+s:s);if(t<=0)clearInterval(window.ti)},1000);}window.scrollTo(0,0);history.pushState({},'', '/'+id)}
+function setA(v){document.getElementById('aAmt').value=v}
+function sendOTP(){let m=document.getElementById('mob').value;if(m.length<10){alert('Mobile dalo');return}document.getElementById('mob2').value='+91 '+m;document.getElementById('l1').style.display='none';document.getElementById('l2').style.display='block';let s=60;let iv=setInterval(()=>{s--;document.getElementById('resend').innerText='Resend available in '+s+'s';if(s<=0)clearInterval(iv)},1000);setTimeout(()=>{document.getElementById('otp').value='250167'},600)}
+function verifyOTP(){let o=document.getElementById('otp').value;if(o=='250167'){localStorage.setItem('phone',document.getElementById('mob').value);document.getElementById('pMob').innerText=document.getElementById('mob').value;document.getElementById('setPhone').innerText=document.getElementById('mob').value;document.getElementById('pName').innerText='Balaji User ✓';go('home')}else alert('Wrong OTP - 250167 daalo')}
+function goW2(){let a=document.getElementById('w1').value;if(!a){alert('Amount dalo');return}if(parseInt(a)>bal){alert('Insufficient Balance - Available ₹'+bal);return}document.getElementById('w2').value=a;go('withdraw2')}
+function submitW(){let a=document.getElementById('w2').value;let n=document.getElementById('accName').value;if(!n){alert('Account holder name dalo');return}if(!a){alert('Amount dalo');return}bal-=parseInt(a);updateBal();alert('Withdrawal Request Submitted!\nName: '+n+'\nAmount: ₹'+a+'\n7AM-9:30PM me process hoga');go('wallet')}
+function createBattle(){let am=document.getElementById('cAmt').value;if(!am){alert('Enter amount');return}if(parseInt(am)>bal){alert('Insufficient Balance - Add Cash karo');go('addcash');return}alert('Battle Created for ₹'+am)}
+function logout(){localStorage.clear();location.reload()}
+document.getElementById('qrFile')?.addEventListener('change',e=>{document.getElementById('fName').innerText=e.target.files[0]?.name||'No file chosen'});
+// pay success simulation - after QR, add balance
+document.getElementById('qrImg')?.addEventListener('click',()=>{let a=parseInt(document.getElementById('aAmt').value||0);bal+=a;updateBal();alert('Payment Received ₹'+a);go('wallet')});
 </script></body></html>
