@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Room - Balaji Ludo</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
+body{background:#f0f0f0;display:flex;justify-content:center}
+.app{width:100%;max-width:400px;background:white;min-height:100vh;padding:15px}
+.code-box{background:#fff3e0;border:2px dashed #ff9800;padding:15px;text-align:center;border-radius:10px;margin-top:20px}
+.code{font-size:24px;font-weight:bold;letter-spacing:3px}
+.btn{width:100%;padding:15px;border:none;border-radius:8px;margin-top:15px;font-weight:bold;color:white}
+.btn-copy{background:#6a1b9a}
+.btn-ludo{background:#ff5722}
+.btn-win{background:green}
+.btn-lost{background:red}
+.rules{font-size:12px;color:gray;margin-top:15px;background:#fafafa;padding:10px;border-radius:8px}
+</style>
+</head>
+<body>
+<div class="app">
+  <h3 style="text-align:center">Ludo Battle Room</h3>
+  <div class="code-box">
+    <p>Room Code</p>
+    <div class="code" id="roomCode">LOADING...</div>
+    <button class="btn btn-copy" onclick="copyCode()">COPY CODE</button>
+  </div>
+  <button class="btn btn-ludo" onclick="openLudo()">🎲 Go to Ludo King App</button>
+  
+  <div class="rules">
+    <b>Rules:</b><br>
+    1. Room code copy karke Ludo King me jao<br>
+    2. Private room me same code dalke khelo<br>
+    3. Jeetne ke baad result upload karo
+  </div>
+
+  <div style="display:flex;gap:10px">
+    <button class="btn btn-win" onclick="won()">I WON</button>
+    <button class="btn btn-lost" onclick="lost()">I LOST</button>
+  </div>
+  <button class="btn" style="background:gray" onclick="location='index.html'">Back to Home</button>
+</div>
+<script>
+let code = Math.floor(100000 + Math.random()*900000);
+document.getElementById("roomCode").innerText=code;
+
+function copyCode(){
+  navigator.clipboard.writeText(code);
+  alert("Room Code Copied: "+code);
+}
+function openLudo(){
+  window.open("https://play.google.com/store/apps/details?id=com.ludo.king","_blank");
+  alert("Ludo King kholo aur Play with Friends > Private > Room Code Dalo: "+code);
+}
+function won(){
+  let proof = prompt("Winning Screenshot ka link dalo ya 'ok' likho (baad me upload system lagayenge):");
+  alert("Result Submitted! Admin 5 min me check karke wallet me paisa dal dega. Prize: ₹180");
+  localStorage.setItem("deposit", 180);
+  location="index.html";
+}
+function lost(){
+  if(confirm("Kya aap haar gaye? Confirm karo")){
+    alert("Better luck next time!");
+    location="index.html";
+  }
+}
+</script>
+</body>
+</html>
