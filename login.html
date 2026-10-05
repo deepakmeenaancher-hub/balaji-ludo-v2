@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Balaji Ludo - Login</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
+body{background:#f5f5f5;display:flex;justify-content:center}
+.container{width:100%;max-width:400px;background:white;min-height:100vh;padding:20px}
+.logo{text-align:center;margin-top:30px}
+.logo img{width:120px}
+.input-box{margin-top:40px}
+.input-box input{width:100%;padding:15px;border:1px solid #ddd;border-radius:8px;font-size:16px}
+.btn{width:100%;padding:15px;background:#6a1b9a;color:white;border:none;border-radius:8px;margin-top:20px;font-size:16px;font-weight:bold}
+.timer{color:red;text-align:center;margin-top:10px;display:none}
+.otp-box{display:none}
+.small{font-size:12px;color:gray;text-align:center;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="logo"><h2>BALAJI LUDO</h2><p>Real Money Game</p></div>
+  <div class="input-box">
+    <div id="phoneDiv">
+      <input id="phone" type="number" placeholder="Enter Mobile Number">
+      <button class="btn" onclick="sendOTP()">GET OTP</button>
+      <p class="small">OTP will come from HOXTNT</p>
+    </div>
+    <div id="otpDiv" class="otp-box">
+      <input id="otp" type="number" placeholder="Enter 6 Digit OTP">
+      <button class="btn" onclick="verifyOTP()">VERIFY OTP</button>
+      <p id="timer" class="timer">Resend in 59s</p>
+      <p class="small">Encrypted & Secure</p>
+    </div>
+  </div>
+</div>
+<script>
+let sentOTP="";
+function sendOTP(){
+  let phone=document.getElementById("phone").value;
+  if(phone.length!=10){alert("10 digit number dalo");return}
+  sentOTP=Math.floor(100000+Math.random()*900000);
+  localStorage.setItem("temp_otp",sentOTP);
+  localStorage.setItem("phone",phone);
+  alert("OTP: "+sentOTP+" (Abhi test ke liye dikha raha hu, baad me Fast2SMS lagega)");
+  document.getElementById("phoneDiv").style.display="none";
+  document.getElementById("otpDiv").style.display="block";
+  startTimer();
+  // Yahan baad me worker.js se Fast2SMS call hoga
+}
+function startTimer(){
+  let s=59;
+  let t=document.getElementById("timer");
+  t.style.display="block";
+  let inter=setInterval(()=>{
+    t.innerText="Resend in "+s+"s";s--;
+    if(s<0){clearInterval(inter);t.innerText="Resend OTP";t.onclick=()=>location.reload()}
+  },1000)
+}
+function verifyOTP(){
+  if(document.getElementById("otp").value==localStorage.getItem("temp_otp")){
+    document.body.innerHTML="<h2 style='text-align:center;margin-top:50%'>Verification successful<br>Redirecting...</h2>";
+    setTimeout(()=>{window.location="index.html"},1500)
+  }else{alert("Wrong OTP")}
+}
+</script>
+</body>
+</html>
