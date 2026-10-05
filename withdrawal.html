@@ -1,0 +1,10 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Withdraw</title>
+<style>*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}body{background:#e6f0ff}.red{background:red;color:#fff;font-size:11px;padding:8px;text-align:center}.w{background:#fff;margin:10px;padding:10px;border-radius:10px}.w input{width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;margin-top:5px}.sub{background:red;color:#fff;width:90%;margin:10px 5%;padding:12px;border:none;border-radius:25px;font-weight:bold}</style></head><body>
+<div class="red">निकासी रिक्वेस्ट सुबह 7Am से रात 9.30pm तक मान्य होगी। फेल होने पर 2 घंटे में वापस आएगी</div>
+<div class="w"><label>Withdraw Amount</label><input id="wa" placeholder="Enter Amount"></div>
+<div class="w"><label>Account holder name (खाता धारक का नाम)</label><input value="Deepak Kumar Meena"></div>
+<div class="w"><label>Upload Your Qr Code (अपना क्यूआर कोड डालें)</label><input type="file"></div>
+<div class="w"><label>Amount</label><input id="wa2" placeholder="Enter amount"></div>
+<button class="sub" onclick="alert('Withdraw Request Sent')">WITHDRAWAL SUBMIT</button>
+<script>document.getElementById('wa').addEventListener('input',e=>document.getElementById('wa2').value=e.target.value)</script>
+</body></html>
