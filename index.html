@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Home - Balaji Ludo</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
+body{background:#f0f0f0;display:flex;justify-content:center}
+.app{width:100%;max-width:400px;background:white;min-height:100vh;position:relative;padding-bottom:70px}
+.header{background:#6a1b9a;color:white;padding:15px;display:flex;justify-content:space-between;align-items:center}
+.wallet{border:1px solid white;padding:5px 10px;border-radius:20px;font-size:14px}
+.battle-card{background:white;margin:10px;border-radius:10px;padding:15px;box-shadow:0 2px 5px #ddd}
+.battle-card .top{display:flex;justify-content:space-between}
+.amount{font-weight:bold;color:#6a1b9a}
+.btn-play{background:#6a1b9a;color:white;border:none;padding:8px 20px;border-radius:5px;margin-top:10px;width:100%}
+.nav{position:fixed;bottom:0;width:100%;max-width:400px;background:white;display:flex;justify-content:space-around;padding:10px;border-top:1px solid #ddd}
+.nav div{text-align:center;font-size:12px;color:gray}
+.nav .active{color:#6a1b9a}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <div>BALAJI LUDO</div>
+    <div class="wallet" onclick="location='wallet.html'">₹<span id="bal">0</span> 💰</div>
+  </div>
+  <div style="padding:10px">
+    <button class="btn-play" style="background:green" onclick="createBattle()">+ CREATE BATTLE (₹100)</button>
+    <h4 style="margin-top:15px">Open Battles</h4>
+    <div id="openBattles"></div>
+    <h4 style="margin-top:15px">Running Battles</h4>
+    <div id="runningBattles"><p style="color:gray;font-size:12px">No running battle</p></div>
+  </div>
+  <div class="nav">
+    <div class="active">🏠<br>Home</div>
+    <div onclick="location='wallet.html'">💰<br>Wallet</div>
+    <div>👤<br>Profile</div>
+  </div>
+</div>
+<script>
+let bal = localStorage.getItem("deposit")||0;
+document.getElementById("bal").innerText=bal;
+
+let battles = JSON.parse(localStorage.getItem("battles")||"[]");
+
+function render(){
+  let html="";
+  if(battles.length==0) html="<p style='font-size:12px;color:gray'>No open battle, create one</p>";
+  battles.forEach((b,i)=>{
+    html+=`<div class="battle-card"><div class="top"><span>Amount ₹${b.amount}</span><span class="amount">Prize ₹${b.amount*2*0.9}</span></div><button class="btn-play" onclick="join(${i})">PLAY</button></div>`
+  })
+  document.getElementById("openBattles").innerHTML=html;
+}
+function createBattle(){
+  battles.push({amount:100,status:"open"});
+  localStorage.setItem("battles",JSON.stringify(battles));
+  location="room.html";
+}
+function join(i){
+  location="room.html?id="+i;
+}
+render();
+</script>
+</body>
+</html>
