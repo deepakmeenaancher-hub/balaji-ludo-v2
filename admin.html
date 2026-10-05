@@ -1,0 +1,9 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Admin</title>
+<style>*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}body{background:#f2f2f2;padding:15px}.h{background:#6A1B9A;color:#fff;padding:15px;text-align:center;border-radius:8px}.b{background:#fff;margin-top:10px;padding:15px;border-radius:8px}input{width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;margin-top:5px}.btn{background:#6A1B9A;color:#fff;padding:12px;text-align:center;border-radius:6px;margin-top:10px;font-weight:bold}</style></head><body>
+<div class="h">ADMIN - QR CONTROL</div>
+<div class="b">UPI ID<br><input id="upi" value="deepakmeenaancher@upi"><br><br>QR Image Upload<br><input type="file" id="f" accept="image/*"><img id="p" style="width:200px;margin:10px auto;display:block">
+<div class="btn" onclick="save()">SAVE QR</div></div>
+<script>
+document.getElementById('f').addEventListener('change',e=>{let r=new FileReader();r.onload=ev=>document.getElementById('p').src=ev.target.result;r.readAsDataURL(e.target.files[0]);});
+function save(){localStorage.setItem('admin_upi',document.getElementById('upi').value);let file=document.getElementById('f').files[0];if(file){let r=new FileReader();r.onload=e=>{localStorage.setItem('admin_qr',e.target.result);alert('QR Save Ho Gaya!');};r.readAsDataURL(file);}else{alert('UPI Save Ho Gaya!');}}
+</script></body></html>
