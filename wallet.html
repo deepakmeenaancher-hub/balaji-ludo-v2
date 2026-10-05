@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wallet</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
+body{background:#f0f0f0;display:flex;justify-content:center}
+.app{width:100%;max-width:400px;background:white;min-height:100vh}
+.header{background:#6a1b9a;color:white;padding:15px;text-align:center}
+.balance{background:#6a1b9a;color:white;padding:20px;text-align:center}
+.balance h1{font-size:32px}
+.tabs{display:flex}
+.tab{flex:1;padding:15px;text-align:center;border-bottom:2px solid #ddd}
+.tab.active{border-color:#6a1b9a;color:#6a1b9a;font-weight:bold}
+.chip{display:inline-block;border:1px solid #6a1b9a;padding:10px 20px;border-radius:20px;margin:5px;cursor:pointer}
+.chip.selected{background:#6a1b9a;color:white}
+.btn{width:90%;margin:20px 5%;padding:15px;background:#6a1b9a;color:white;border:none;border-radius:8px;font-weight:bold}
+.qr-box{display:none;text-align:center;padding:20px}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header" onclick="location='index.html'">← Wallet</div>
+  <div class="balance"><p>Balance</p><h1>₹<span id="bal">0</span></h1><p style="font-size:12px">Deposit: ₹<span id="dep">0</span> | Winning: ₹<span id="win">0</span></p></div>
+  <div class="tabs"><div class="tab active">Add Cash</div><div class="tab">Withdraw</div></div>
+  <div style="padding:15px;text-align:center">
+    <p>Select Amount</p>
+    <div><span class="chip" onclick="sel(100,this)">₹100</span><span class="chip selected" onclick="sel(250,this)">₹250</span><span class="chip" onclick="sel(500,this)">₹500</span><span class="chip" onclick="sel(1000,this)">₹1000</span></div>
+    <button class="btn" onclick="addCash()">ADD CASH</button>
+    <div id="qr" class="qr-box">
+      <p>Scan & Pay ₹<span id="payAmt">250</span></p>
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=balajiludo@upi" style="margin:15px">
+      <p style="font-size:12px">Payment ke baad Screenshot WhatsApp karo<br>5 min me balance add ho jayega</p>
+      <button class="btn" style="background:green" onclick="paid()">I HAVE PAID</button>
+    </div>
+  </div>
+</div>
+<script>
+let amount=250;
+function sel(amt,el){
+  amount=amt;
+  document.querySelectorAll(".chip").forEach(c=>c.classList.remove("selected"));
+  el.classList.add("selected");
+}
+function addCash(){
+  document.getElementById("payAmt").innerText=amount;
+  document.getElementById("qr").style.display="block";
+}
+function paid(){
+  alert("Payment Received! ₹"+amount+" 5 min me add ho jayega (Abhi test ke liye instant add kar raha hu)");
+  let dep=parseInt(localStorage.getItem("deposit")||0)+amount;
+  localStorage.setItem("deposit",dep);
+  location.reload();
+}
+let dep=localStorage.getItem("deposit")||0;
+document.getElementById("bal").innerText=dep;
+document.getElementById("dep").innerText=dep;
+document.getElementById("win").innerText="0";
+</script>
+</body>
+</html>
