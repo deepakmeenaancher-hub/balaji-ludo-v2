@@ -1,46 +1,42 @@
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    let path = url.pathname;
 
-    // CORS
-    const headers = {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "POST, GET",
-      "Access-Control-Allow-Headers": "Content-Type"
-    };
+    // Default page login pe bhejo
+    if (path === "/" || path === "/index") {
+      path = "/index.html";
+    }
 
-    if (request.method === "OPTIONS") return new Response(null, {headers});
+    // Agar .html nahi hai to .html jod do
+    if (!path.includes(".")) {
+      path = path + ".html";
+    }
 
-    // 1. Send OTP - /api/send-otp
-    if (url.pathname === "/api/send-otp" && request.method === "POST") {
-      const { phone } = await request.json();
-      const otp = Math.floor(100000 + Math.random()*900000);
+    // GitHub RAW se file lao
+    const githubUrl = `https://raw.githubusercontent.com/deepakmeenaancher-hub/balaji-ludo-v2/main${path}`;
+    
+    let response = await fetch(githubUrl);
 
-      // Fast2SMS - Yahan apni API Key dalna
-      const FAST2SMS_KEY = env.FAST2SMS_KEY || "YOUR_FAST2SMS_KEY";
+    // Agar file nahi mili to index.html dikhao
+    if (!response.ok) {
+      response = await fetch(`https://raw.githubusercontent.com/deepakmeenaancher-hub/balaji-ludo-v2/main/index.html`);
+    }
 
-      try {
-        // Real SMS bhejega
-        // await fetch("https://www.fast2sms.com/dev/bulkV2", {
-        // method: "POST",
-        // headers: { "authorization": FAST2SMS_KEY, "Content-Type": "application/json" },
-        // body: JSON.stringify({ route: "otp", variables_values: otp, numbers: phone })
-        // });
+    let content = await response.text();
+    
+    // Content-Type sahi set karo
+    let contentType = "text/html;charset=UTF-8";
+    if (path.endsWith(".js")) contentType = "application/javascript";
+    if (path.endsWith(".css")) contentType = "text/css";
+    if (path.endsWith(".json")) contentType = "application/json";
 
-        // Abhi ke liye D1 me save kar rahe hai
-        // await env.DB.prepare("INSERT INTO users (phone, otp) VALUES (?,?)").bind(phone, otp).run();
-
-        return new Response(JSON.stringify({ success: true, otp: otp, message: "OTP sent from HOXTNT" }), { headers: {...headers, "Content-Type":"application/json"}});
-      } catch(e) {
-        return new Response(JSON.stringify({ success: false, error: e.message }), { headers });
+    return new Response(content, {
+      headers: {
+        "Content-Type": contentType,
+        "Access-Control-Allow-Origin": "*",
+        "Cache-Control": "no-cache"
       }
-    }
-
-    // 2. Verify OTP
-    if (url.pathname === "/api/verify-otp" && request.method === "POST") {
-      return new Response(JSON.stringify({ success: true, token: "verified" }), { headers: {"Content-Type":"application/json",...headers} });
-    }
-
-    return new Response("Balaji Ludo API Running - Use /api/send-otp", { headers });
+    });
   }
 }
